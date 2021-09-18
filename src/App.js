@@ -1,25 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import {useState} from 'react';
+import {data} from './birthday-data';
 
 function App() {
+
+  const [birthdays, setBirthdays] = useState(data);
+
+  const removeBirthday = (id) => {
+    let newBirthday = birthdays.filter((birthday) => birthday.id !== id)
+    setBirthdays(newBirthday)
+  }
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+    <h3 className='birthday-header'>{birthdays.length} birthdays today</h3>
+    {birthdays.map((birthday) => {
+      const {id, name, image} = birthday;
+      return (
+        <div key={id} className="container">
+
+          <div className="avatar" key={id}>
+              <div>
+                <img src={image} alt={name}/>
+              </div>
+          
+              <div>
+                <h3 className='name'>{name}</h3>
+              </div>
+         
+              <div className="button">
+                  <button className="btn" onClick={() => removeBirthday(id)}>
+                      Dismiss
+                  </button>
+              </div>
+          </div>
+
+
+        </div>
+      );
+    })}
+    </>
+  )
 }
+
+
 
 export default App;
